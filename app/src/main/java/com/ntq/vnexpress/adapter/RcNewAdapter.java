@@ -26,6 +26,12 @@ public class RcNewAdapter extends RecyclerView.Adapter<RcNewAdapter.NewViewHolde
     private Context context;
     private CallbackWebView callbackWebView;
 
+    /**
+     * Constructor for NewApapter
+     * @param callbackWebView : callback to load url and show webview
+     * @param context : context of activity
+     * @param expressNews : list news
+     * **/
     public RcNewAdapter(ArrayList<ExpressNew> expressNews, Context context, CallbackWebView callbackWebView) {
         this.expressNews = expressNews;
         this.context = context;
@@ -43,16 +49,19 @@ public class RcNewAdapter extends RecyclerView.Adapter<RcNewAdapter.NewViewHolde
     @Override
     public void onBindViewHolder(@NonNull NewViewHolder holder, int position) {
 
+        // Parsing description with Jsoup
         Document document = Jsoup.parse(expressNews.get(position).getDescription());
+        // Get url image with tag img
         String urlImage = document.getElementsByTag("img").attr("src");
-
+        // Load image into image view
         Glide.with(context).load(urlImage).centerCrop()
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.ivNew);
+        // Set title, content, date for item
         holder.bind(expressNews.get(position).getTitle(),
                 document.wholeText(),
                 expressNews.get(position).getPubDate());
-
+        // Set event click for item
         holder.itemView.setOnClickListener(v ->
                 callbackWebView.showWeb(expressNews.get(position).getLink()));
     }
