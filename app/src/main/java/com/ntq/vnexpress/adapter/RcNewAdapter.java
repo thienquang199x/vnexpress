@@ -49,7 +49,9 @@ public class RcNewAdapter extends RecyclerView.Adapter<RcNewAdapter.NewViewHolde
         Glide.with(context).load(urlImage).centerCrop()
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.ivNew);
-        holder.bind(expressNews.get(position).getTitle(), document.wholeText());
+        holder.bind(expressNews.get(position).getTitle(),
+                document.wholeText(),
+                expressNews.get(position).getPubDate());
 
         holder.itemView.setOnClickListener(v ->
                 callbackWebView.showWeb(expressNews.get(position).getLink()));
@@ -65,17 +67,20 @@ public class RcNewAdapter extends RecyclerView.Adapter<RcNewAdapter.NewViewHolde
         private ImageView ivNew;
         private TextView tvTitleNew;
         private TextView tvContentNew;
+        private TextView tvPubDateNew;
 
         public NewViewHolder(@NonNull View itemView) {
             super(itemView);
             ivNew = itemView.findViewById(R.id.ivNew);
             tvTitleNew = itemView.findViewById(R.id.tvTitleNew);
             tvContentNew = itemView.findViewById(R.id.tvContentNew);
+            tvPubDateNew = itemView.findViewById(R.id.tvPubDateNew);
         }
 
-        public void bind(String title, String content){
+        public void bind(String title, String content, String date){
             tvTitleNew.setText(title);
             tvContentNew.setText(content);
+            tvPubDateNew.setText(date);
         }
 
     }
