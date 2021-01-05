@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import android.content.DialogInterface;
 import android.graphics.Rect;
@@ -71,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ExpressNew> expressNews = new ArrayList<>();
         RecyclerView rcNews = findViewById(R.id.rcNews);
         RcNewAdapter rcNewAdapter = new RcNewAdapter(expressNews, this, url -> {
-            if (isDark){
-                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
-            } else {
-                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)){
+                if (isDark){
+                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                } else {
+                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                }
             }
             wv.loadUrl(url);
             alert.show();
